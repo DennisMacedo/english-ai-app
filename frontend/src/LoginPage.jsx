@@ -2,7 +2,11 @@
 // Tela de login do English AI App
 // Responsável por autenticar o usuário com e-mail e senha
 
+import { useNavigate } from 'react-router-dom'
+
 function LoginPage() {
+  const navigate = useNavigate()
+
   return (
     // Container principal — ocupa a tela toda com fundo escuro
     <div className="min-h-screen bg-gray-950 flex items-center justify-center">
@@ -33,8 +37,10 @@ function LoginPage() {
             className="bg-gray-800 text-white placeholder-gray-500 px-4 py-3 rounded-xl border border-gray-700 focus:outline-none focus:border-purple-500"
           />
 
-          {/* Botão de entrar */}
-          <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition-colors">
+          {/* Botão de entrar — navega para a Home */}
+          <button
+            onClick={() => navigate('/home')}
+            className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition-colors">
             Entrar
           </button>
 
