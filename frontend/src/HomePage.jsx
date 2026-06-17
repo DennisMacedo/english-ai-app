@@ -1,8 +1,22 @@
 // HomePage.jsx
 // Tela principal do English AI App após o login
-// Exibe os módulos de aprendizado e o progresso do usuário
+// Busca as lições do backend C# e exibe os módulos
+
+import { useState, useEffect } from 'react'
 
 function HomePage() {
+
+  // Estado que guarda as lições vindas da API
+  const [lessons, setLessons] = useState([])
+
+  // useEffect — executa quando a tela carrega
+  // Busca as lições do backend C#
+  useEffect(() => {
+    fetch('http://localhost:5076/api/lessons')
+      .then(res => res.json())
+      .then(data => setLessons(data))
+  }, [])
+
   return (
     // Container principal com fundo escuro
     <div className="min-h-screen bg-gray-950 text-white p-6">
@@ -30,40 +44,27 @@ function HomePage() {
         <p className="text-gray-500 text-xs mt-2">Nível A1 — Iniciante</p>
       </div>
 
-      {/* Título dos módulos */}
-      <h2 className="text-lg font-semibold mb-4">Módulos</h2>
+      {/* Título das lições */}
+      <h2 className="text-lg font-semibold mb-4">Lições disponíveis</h2>
 
-      {/* Grid de módulos */}
-      <div className="grid grid-cols-2 gap-4">
-
-        {/* Módulo Listening */}
-        <div className="bg-gray-900 rounded-2xl p-4 border border-gray-800 cursor-pointer hover:border-purple-500 transition-colors">
-          <div className="text-3xl mb-3">🎧</div>
-          <h3 className="font-semibold text-sm">Listening</h3>
-          <p className="text-gray-500 text-xs mt-1">Treinar compreensão auditiva</p>
-        </div>
-
-        {/* Módulo Speaking */}
-        <div className="bg-gray-900 rounded-2xl p-4 border border-gray-800 cursor-pointer hover:border-purple-500 transition-colors">
-          <div className="text-3xl mb-3">🎙️</div>
-          <h3 className="font-semibold text-sm">Speaking</h3>
-          <p className="text-gray-500 text-xs mt-1">Praticar pronúncia com IA</p>
-        </div>
-
-        {/* Módulo Vocabulário */}
-        <div className="bg-gray-900 rounded-2xl p-4 border border-gray-800 cursor-pointer hover:border-purple-500 transition-colors">
-          <div className="text-3xl mb-3">📚</div>
-          <h3 className="font-semibold text-sm">Vocabulário</h3>
-          <p className="text-gray-500 text-xs mt-1">Aprender novas palavras</p>
-        </div>
-
-        {/* Módulo Conversação */}
-        <div className="bg-gray-900 rounded-2xl p-4 border border-gray-800 cursor-pointer hover:border-purple-500 transition-colors">
-          <div className="text-3xl mb-3">💬</div>
-          <h3 className="font-semibold text-sm">Conversação</h3>
-          <p className="text-gray-500 text-xs mt-1">Conversar livremente com IA</p>
-        </div>
-
+      {/* Lista de lições vindas da API */}
+      <div className="flex flex-col gap-3">
+        {lessons.map(lesson => (
+          <div
+            key={lesson.id}
+            className="bg-gray-900 rounded-2xl p-4 border border-gray-800 hover:border-purple-500 transition-colors cursor-pointer"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold">{lesson.title}</h3>
+                <p className="text-gray-500 text-xs mt-1">{lesson.module} · {lesson.durationMinutes} min</p>
+              </div>
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-purple-900 text-purple-300">
+                {lesson.level}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Botão de lição do dia */}
