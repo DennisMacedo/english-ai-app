@@ -2,10 +2,17 @@
 // Ponto de entrada da API do English AI App
 // Configura os serviços e o pipeline de requisições
 
+using Microsoft.EntityFrameworkCore;
+using EnglishAI.API.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona suporte a Controllers
 builder.Services.AddControllers();
+
+// Configura o banco de dados PostgreSQL com Entity Framework
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configura o CORS — permite que o frontend React acesse a API
 builder.Services.AddCors(options =>

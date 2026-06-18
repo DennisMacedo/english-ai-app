@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EnglishAI.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de1775f9566ef907a1191f3de612ea73e4a5a2b3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81b46300adbec8818660239b253edf00a03355c6")]
 [assembly: System.Reflection.AssemblyProductAttribute("EnglishAI.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EnglishAI.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

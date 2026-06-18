@@ -1,8 +1,10 @@
 // LessonsController.cs
 // Controller responsável pelas rotas de lições do English AI App
-// Retorna as lições disponíveis para o frontend
+// Busca as lições do banco de dados PostgreSQL via Entity Framework
 
 using Microsoft.AspNetCore.Mvc;
+using EnglishAI.API.Data;
+using EnglishAI.API.Models;
 
 namespace EnglishAI.API.Controllers
 {
@@ -10,20 +12,31 @@ namespace EnglishAI.API.Controllers
     [Route("api/[controller]")]
     public class LessonsController : ControllerBase
     {
+        // Contexto do banco de dados injetado automaticamente
+        private readonly AppDbContext _context;
+
+        public LessonsController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         // GET api/lessons
-        // Retorna a lista de lições disponíveis
+        // Retorna todas as lições do banco de dados
         [HttpGet]
         public IActionResult GetLessons()
         {
-            var lessons = new[]
-            {
-                new { id = 1, title = "Greetings", level = "A1", module = "Speaking", durationMinutes = 10 },
-                new { id = 2, title = "Numbers and Colors", level = "A1", module = "Vocabulary", durationMinutes = 15 },
-                new { id = 3, title = "Daily Conversations", level = "A2", module = "Listening", durationMinutes = 20 },
-                new { id = 4, title = "Talking About Your Job", level = "B1", module = "Conversation", durationMinutes = 25 }
-            };
-
+            var lessons = _context.Lessons.ToList();
             return Ok(lessons);
+        }
+
+        // POST api/lessons
+        // Adiciona uma nova lição no banco de dados
+        [HttpPost]
+        public IActionResult CreateLesson(Lesson lesson)
+        {
+            _context.Lessons.Add(lesson);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetLessons), new { id = lesson.Id }, lesson);
         }
     }
 }
